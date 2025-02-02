@@ -1,18 +1,26 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\GovernorateController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\TouristLandmarkController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return view('login');
+// Route::get('/', function () {
+//     return view('dashboard');
+// });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth'])->group(function () {
+    // Governorates
+    Route::resource('governorates', GovernorateController::class);
+
+    // Tourist Landmarks
+    Route::resource('tourist-landmarks', TouristLandmarkController::class);
+
+    // Blogs
+    Route::resource('blogs', BlogController::class);
 });
-
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::resource('students', StudentController::class);

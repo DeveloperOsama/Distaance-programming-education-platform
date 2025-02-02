@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('tourist_landmarks', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
-            $table->boolean('completed')->default(false);
+            $table->string('name');
+            $table->text('description');
+            $table->string('location');
+            $table->string('image')->nullable();
+            $table->foreignId('governorate_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('tourist_landmarks');
     }
 };
